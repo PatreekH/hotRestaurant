@@ -1,5 +1,7 @@
 //Dependencies
 var path = require('path');
+var tableData = require('../data/table-data.js');
+var waitListData = require('../data/waitinglist-data.js');
 
 
 // Routes
@@ -7,26 +9,26 @@ var path = require('path');
 
 module.exports = function(app){
 
-	
-	// Basic route that sends the user first to the AJAX Page
-	app.get('/', function(req, res){
-		
-		//res.send("Welcome to the Star Wars Page!")
-		res.sendFile(path.join(__dirname, '..', 'public', 'home.html'));
-	})
-
-	app.get('/reserve', function(req, res){
-		
-		//res.send("Welcome to the Star Wars Page!")
-		res.sendFile(path.join(__dirname, '..', 'public', 'reserve.html'));
-	})
+	// HTML GET Requests
+	// Below code handles when users "visit" a page. 
+	// In each of the below cases the user is shown an HTML page of content
+	// ---------------------------------------------------------------------------
 
 	app.get('/tables', function(req, res){
-		
-		//res.send("Welcome to the Star Wars Page!")
-		res.sendFile(path.join(__dirname, '..', 'public', 'tables.html'));
-	})
+		res.render('tables', {
+			tableData: tableData, 
+			waitingData: waitListData
+		});
+	});
 
-};
+	app.get('/reserve', function(req, res){
+		res.sendFile(path.join(__dirname + '/../public/reserve.html'));
+	});
+
+	app.use(function(req, res){
+		res.sendFile(path.join(__dirname + '/../public/home.html'));
+	});
+
+}
 
 
